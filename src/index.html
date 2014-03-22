@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Leaflet.draw drawing and editing tools</title>
+  <title>Leaflet Draw</title>
 
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/lib/leaflet/leaflet.css" />
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
@@ -13,17 +13,17 @@
 
 <body>
   <div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
-  <button id="changeColor">Rectangle -> Blue</button>
   <script>
-    var cloudmadeUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
-      cloudmade = new L.TileLayer(cloudmadeUrl,
+    var maptileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
+      maptile = new L.TileLayer(maptileUrl,
       {
         maxZoom: 18,
-        subdomains: '1234'
+        subdomains: '1234',
+        attribution: '&copy OpenStreetMap contributors {<a href="http://www.openstreetmap.org/copyright">license</a>}'
       }),
       map = new L.Map('map',
       {
-        layers: [cloudmade],
+        layers: [maptile],
         center: new L.LatLng(39.7772, -105),
         zoom: 15
       });
@@ -97,20 +97,6 @@
       });
       console.log("Edited " + countOfEditedLayers + " layers");
     });
-
-    L.DomUtil.get('changeColor').onclick = function()
-    {
-      drawControl.setDrawingOptions(
-      {
-        rectangle:
-        {
-          shapeOptions:
-          {
-            color: '#004a80'
-          }
-        }
-      });
-    };
   </script>
 </body>
 
