@@ -1,0 +1,20 @@
+{
+  "name": "OsmMerge",
+  "description": "Allows users to merge data from on OpenStreetMap based project to another",
+  "author": "Jim McAndrew <jim@loc8.us>",
+  "dependencies": {
+    "leaflet": "0.7.2",
+    "leaflet-draw": "0.2.2"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-browserify": "1.3.0",
+    "grunt-contrib-uglify": "0.2.6",
+    "grunt-contrib-qunit": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*"
+  }
+}
