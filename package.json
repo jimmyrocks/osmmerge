@@ -4,7 +4,9 @@
   "author": "Jim McAndrew <jim@loc8.us>",
   "dependencies": {
     "leaflet": "0.7.2",
-    "leaflet-draw": "0.2.2"
+    "leaflet-draw": "0.2.2",
+    "leaflet-osm-edit": "git+http://loc8.us/git/leaflet-osm-edit.git/",
+    "leaflet-osm": "git+https://github.com/jfirebaugh/leaflet-osm"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
