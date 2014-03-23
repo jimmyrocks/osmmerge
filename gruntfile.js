@@ -58,8 +58,15 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint', 'qunit']
+      js: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['clean', 'jshint', 'concat', 'browserify', 'copy:dist']
+        //tasks: ['jshint']
+      },
+      html: {
+        files: ['src/**/*.html', 'test/**/*.html'],
+        tasks: ['clean', 'jshint', 'concat', 'browserify', 'copy:dist']
+      }
     }
   });
 
