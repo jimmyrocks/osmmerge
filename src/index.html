@@ -16,14 +16,6 @@
   <div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
   <script>
     var maptile = new L.OSM.MapQuestOpen();
-    /*maptileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
-      maptile = new L.TileLayer(maptileUrl,
-      {
-        maxZoom: 18,
-        subdomains: '1234',
-        attribution: '&copy OpenStreetMap contributors {<a href="http://www.openstreetmap.org/copyright">license</a>}'
-      }),
-      */
     map = new L.Map('map',
     {
       layers: [maptile],
