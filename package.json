@@ -6,8 +6,7 @@
     "leaflet": "0.7.2",
     "leaflet-draw": "0.2.2",
     "leaflet-osm-edit": "git+http://loc8.us/git/leaflet-osm-edit.git/",
-    "leaflet-osm": "git+https://github.com/jfirebaugh/leaflet-osm",
-    "Leaflet.MakiMarkers":v"git+https://github.com/jseppi/Leaflet.MakiMarkers.git"
+    "leaflet-osm": "git+https://github.com/jfirebaugh/leaflet-osm"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
