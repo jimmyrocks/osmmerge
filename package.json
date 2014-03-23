@@ -19,6 +19,6 @@
     "grunt-contrib-watch": "0.6.1",
     "grunt-mocha-phantomjs": "0.3.2",
     "mocha": "1.16.2",
-    "mocha-phantomjs": "3.3.0",
+    "mocha-phantomjs": "3.3.0"
   }
 }
