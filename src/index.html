@@ -8,25 +8,28 @@
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
 
 
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <script src="OsmMerge.min.js"></script>
 </head>
 
 <body>
   <div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
   <script>
-    var maptileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
+    var maptile = new L.OSM.MapQuestOpen();
+    /*maptileUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
       maptile = new L.TileLayer(maptileUrl,
       {
         maxZoom: 18,
         subdomains: '1234',
         attribution: '&copy OpenStreetMap contributors {<a href="http://www.openstreetmap.org/copyright">license</a>}'
       }),
-      map = new L.Map('map',
-      {
-        layers: [maptile],
-        center: new L.LatLng(39.7772, -105),
-        zoom: 15
-      });
+      */
+    map = new L.Map('map',
+    {
+      layers: [maptile],
+      center: new L.LatLng(39.7772, -105),
+      zoom: 15
+    });
 
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
