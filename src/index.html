@@ -17,71 +17,26 @@
   <script>
     var tileLayers = {
       naip: new L.tileLayer('http://navigator.er.usgs.gov/tiles/tilecache.cgi/1.0.0/naip/{z}/{x}/{y}',
-        {
-          attribution: ['USGS National Agriculture Imagery Program',
-            '<a href="http://www.doi.gov" target="_blank">U.S. Department of the Interior</a>',
-            '<a href="http://www.usgs.gov" target="_blank">U.S. Geological Survey</a>',
-            '<a href="http://www.usgs.gov/laws/policies_notices.html" target="_blank">Policies</a>'
-          ].join(' | ')
-        }),
-        mapQuestTile: new L.OSM.MapQuestOpen()
-      };
-      map = new L.Map('map',
       {
-        layers: [tileLayers.naip],
-        center: new L.LatLng(39.7772, -105),
-        zoom: 15
-      });
-
-      var drawnItems = new L.FeatureGroup();
-      map.addLayer(drawnItems);
-
-      var drawControl = new L.Control.Draw(
-      {
-        position: 'topright',
-        draw:
-        {
-          polyline: false,
-          polygon: false,
-          circle: false,
-          rectangle: false,
-          marker:
-          {}
-        },
-        edit:
-        {
-          featureGroup: drawnItems,
-          remove: false
-        }
-      });
-      map.addControl(drawControl);
-
-      map.on('draw:created', function(e)
-      {
-        var type = e.layerType,
-          layer = e.layer;
-
-        if (type === 'marker')
-        {
-          if (!layer._popup)
-          {
-            layer.bindPopup('A popup!');
-          }
-        }
-
-        drawnItems.addLayer(layer);
-      });
-
-      map.on('draw:edited', function(e)
-      {
-        var layers = e.layers;
-        var countOfEditedLayers = 0;
-        layers.eachLayer(function(layer)
-        {
-          countOfEditedLayers++;
-        });
-        console.log("Edited " + countOfEditedLayers + " layers");
-      });
+        attribution: ['USGS National Agriculture Imagery Program',
+          '<a href="http://www.doi.gov" target="_blank">U.S. Department of the Interior</a>',
+          '<a href="http://www.usgs.gov" target="_blank">U.S. Geological Survey</a>',
+          '<a href="http://www.usgs.gov/laws/policies_notices.html" target="_blank">Policies</a>'
+        ].join(' | ')
+      }),
+      mapQuestTile: new L.OSM.MapQuestOpen()
+    };
+    map = new L.Map('map',
+    {
+      layers: [tileLayers.naip],
+      center: new L.LatLng(39.7772, -105),
+      zoom: 16
+    });
+    $(function()
+    {
+      L.osmEdit.draw(L.osmEdit.draw.defaultOptions);
+      L.osmEdit.read.DataLayer.node();
+    });
   </script>
 </body>
 
