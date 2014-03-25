@@ -32,10 +32,9 @@
       center: new L.LatLng(39.7772, -105),
       zoom: 16
     });
-    $(function()
-    {
+    $(function() {
       L.osmEdit.draw(L.osmEdit.draw.defaultOptions);
-      L.osmEdit.read.DataLayer.node();
+      L.osmEdit.read.enabled(map, true);
     });
   </script>
 </body>
