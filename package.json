@@ -6,7 +6,8 @@
     "leaflet": "0.7.2",
     "leaflet-draw": "0.2.2",
     "leaflet-osm-edit": "git+ssh://jimmyrocks@loc8.us/home/jimmyrocks/git.loc8.us/leaflet-osm-edit.git",
-    "leaflet-osm": "git+https://github.com/jfirebaugh/leaflet-osm"
+    "leaflet-osm": "git+https://github.com/jfirebaugh/leaflet-osm",
+    "leaflet-sidebar": "git+https://github.com/Turbo87/leaflet-sidebar.git"
   },
   "devDependencies": {
     "grunt": "0.4.4",
