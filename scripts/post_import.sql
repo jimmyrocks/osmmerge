@@ -23,3 +23,12 @@ WHERE nodes.tags->'Validated'='1';
 CREATE INDEX matched_nodes_validated_usgs_index ON  matched_nodes_validated USING gist (usgs_geom);
 ANALYZE  matched_nodes_validated;
 VACUUM  matched_nodes_validated;
+
+-- Create the change tracking table
+CREATE TABLE approved_nodes NOT NULL,
+  osm_id integer NOT NULL,
+  tags hstore,
+  geom geometry(Point,4326),
+  comments text,
+  CONSTRAINT pk_approved_nodes_osmmerge PRIMARY KEY (usgs_id)
+);
