@@ -2,10 +2,11 @@
 <html>
 
 <head>
-  <title>Leaflet Draw</title>
+  <title>OSM Merge</title>
 
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/lib/leaflet/leaflet.css" />
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+  <link rel="stylesheet" href="http://turbo87.github.io/leaflet-sidebar/src/L.Control.Sidebar.css" />
 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
@@ -13,7 +14,8 @@
 </head>
 
 <body>
-  <div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
+  <div style="width: 100%; height: 20px; background: #8b2332; color: #fff;">OpenStreetMap Merge</div>
+  <div id="map" style="width: auto; height: auto; border: 1px solid #ccc"></div>
   <script>
     var tileLayers = {
       naip: new L.tileLayer('http://navigator.er.usgs.gov/tiles/tilecache.cgi/1.0.0/naip/{z}/{x}/{y}',
@@ -24,18 +26,21 @@
           '<a href="http://www.usgs.gov/laws/policies_notices.html" target="_blank">Policies</a>'
         ].join(' | ')
       }),
+      bing: new L.BingLayer('Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU'), // OSM Bing Key
       mapQuestTile: new L.OSM.MapQuestOpen()
     };
     map = new L.Map('map',
     {
-      layers: [tileLayers.naip],
-      center: new L.LatLng(39.7772, -105),
-      zoom: 16
+      layers: [tileLayers.bing],
+      center: new L.LatLng(39.739094, -104.984898), //CO State Capitol
+      zoom: 15
     });
+
     $(function() {
       L.osmEdit.draw(L.osmEdit.draw.defaultOptions);
       L.osmEdit.read.enabled(map, true);
     });
+
   </script>
 </body>
 
