@@ -5,7 +5,7 @@
   "dependencies": {
     "leaflet": "0.7.2",
     "leaflet-draw": "0.2.2",
-    "leaflet-osm-edit": "git+http://loc8.us/git/leaflet-osm-edit.git/",
+    "leaflet-osm-edit": "git+ssh://jimmyrocks@loc8.us/home/jimmyrocks/git.loc8.us/leaflet-osm-edit.git",
     "leaflet-osm": "git+https://github.com/jfirebaugh/leaflet-osm"
   },
   "devDependencies": {
