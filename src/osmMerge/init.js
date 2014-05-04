@@ -1,14 +1,16 @@
 var showIntro = function() {
-  $('#sidebar')
-    .empty();
+  $('#sidebar').empty();
+  $('.header').empty();
 
-  $('#sidebar')[0].appendChild(htmlWrap(L.osmMerge.content.sidebars.intro.header, 'h2'));
-  $('#sidebar')[0].appendChild(htmlWrap(L.osmMerge.content.sidebars.intro.subheader, 'p'));
+  $('#sidebar')[0].appendChild(htmlWrap('h2', L.osmMerge.content.sidebars.intro.header));
+  $('#sidebar')[0].appendChild(htmlWrap('p', L.osmMerge.content.sidebars.intro.subheader));
   $('#sidebar')[0].appendChild(L.osmMerge.content.sidebars.intro.content);
+
+  $('.header')[0].appendChild(htmlWrap('h3',L.osmMerge.content.project.title + ': ' + L.osmMerge.content.project.tagline, 'title'));
 
   L.osmMerge.controls.getByName('sidebar')[0].show();
 },
-htmlWrap = function(content, tag, id) {
+htmlWrap = function(tag, content, id) {
   var temp = L.DomUtil.create(tag, id);
   temp.innerHTML = content;
   return temp;
@@ -49,10 +51,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         name: 'title'
       },
       onAdd: function(map) {
-        var header = L.DomUtil.create('div', 'header'),
-          title = L.DomUtil.create('h3', 'title');
-        title.textContent = 'OsmMerge: Merge USGS Data into OpenStreetMap!';
-        header.appendChild(title);
+        var header = L.DomUtil.create('div', 'header');
         return header;
       }
     }),
