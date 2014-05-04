@@ -35,7 +35,7 @@ module.exports = {
       'content': L.DomUtil.create('div', 'introSidebar')
     };
     var description = L.DomUtil.create('div', 'description');
-    description.textContent = 'Welcome to osmMerge, where we are using ' +
+    description.innerHTML = 'Welcome to osmMerge, where we are using ' +
       'crowdsourcing to merge point data from the USGS National Map Corps ' +
       'project into OpenStreetMap.<br/>Click the buttons below to continue';
     var introButtons = L.DomUtil.create('div', 'introButtons');
