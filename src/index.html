@@ -7,9 +7,12 @@
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/lib/leaflet/leaflet.css" />
   <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
   <link rel="stylesheet" href="http://turbo87.github.io/leaflet-sidebar/src/L.Control.Sidebar.css" />
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="OsmMerge.css" />
 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="OsmMerge.min.js"></script>
 
   <style>
@@ -17,7 +20,9 @@
       padding: 0;
       margin: 0;
     }
-    html, body, #map {
+    html,
+    body,
+    #map {
       height: 100%;
       width: 100%;
     }
@@ -25,38 +30,12 @@
 </head>
 
 <body>
-  <div style="width: 100%; height: 80px; background: #8b2332; color: #fff;"><br/><h2>OpenStreetMap Merge</h2></div>
   <div id="map" style="border: 1px solid #ccc"></div>
+  <div id="sidebar">
+    <h1>leaflet-sidebar</h1>
+  </div>
   <script>
-    var tileLayers = {
-      naip: new L.tileLayer('http://navigator.er.usgs.gov/tiles/tilecache.cgi/1.0.0/naip/{z}/{x}/{y}',
-      {
-        attribution: ['USGS National Agriculture Imagery Program',
-          '<a href="http://www.doi.gov" target="_blank">U.S. Department of the Interior</a>',
-          '<a href="http://www.usgs.gov" target="_blank">U.S. Geological Survey</a>',
-          '<a href="http://www.usgs.gov/laws/policies_notices.html" target="_blank">Policies</a>'
-        ].join(' | ')
-      }),
-      bing: new L.BingLayer('Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU', // OSM Bing Key
-      {
-        attribution: ['Bing Imagery',
-        '<a href="http://www.usgs.gov" target="_blank">U.S. Geological Survey</a>',
-        'OpenStreetMap'].join(' | ')
-      }),
-      mapQuestTile: new L.OSM.MapQuestOpen()
-    };
-    map = new L.Map('map',
-    {
-      layers: [tileLayers.bing],
-      center: new L.LatLng(39.739094, -104.984898), //CO State Capitol
-      zoom: 15
-    });
-
-    $(function() {
-      L.osmEdit.draw(L.osmEdit.draw.defaultOptions);
-      L.osmEdit.read.enabled(map, true);
-    });
-
+    L.osmMerge.load('map');
   </script>
 </body>
 
