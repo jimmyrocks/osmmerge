@@ -1,3 +1,16 @@
+-- https://wiki.postgresql.org/wiki/What's_new_in_PostgreSQL_9.3#Writeable_Foreign_Tables
+CREATE SERVER osm_fdw FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host 'localhost', dbname 'osm');
+CREATE USER MAPPING FOR PUBLIC SERVER osm_fdw OPTIONS (password '');
+CREATE FOREIGN TABLE osm_nodes (
+  id           bigint,
+  version      integer,
+  user_id      integer,
+  tstamp       timestamp without time zone,
+  changeset_id bigint,
+  tags         hstore,
+  geom         geometry(Point,4326)
+) SERVER osm_fdw OPTIONS (table_name 'nodes');
+
 -- Create a view linking probable matched based on the origin import id for items that
 -- have been validated in the USGS Navigator project
 CREATE MATERIALIZED VIEW matched_nodes_validated AS
