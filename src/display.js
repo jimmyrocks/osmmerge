@@ -35,7 +35,7 @@ L.osmMerge = {
         },
         onAdd: function(map) {
           var header = L.DomUtil.create('div', 'header'),
-            title = L.DomUtil.create('span', 'title');
+            title = L.DomUtil.create('h3', 'title');
           title.textContent = 'OsmMerge: Merge USGS Data into OpenStreetMap!';
           header.appendChild(title);
           return header;
@@ -48,7 +48,7 @@ L.osmMerge = {
         name: 'sidebar'
       })
     ];
-    L.osmMerge.getName = function(name) {
+    L.osmMerge.controls.getByName = function(name) {
       return L.osmMerge.controls.filter(function(a) {
         return a && a.options && a.options.name === name;
       });
