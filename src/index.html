@@ -11,11 +11,22 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <script src="OsmMerge.min.js"></script>
+
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    html, body, #map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
-  <div style="width: 100%; height: 20px; background: #8b2332; color: #fff;">OpenStreetMap Merge</div>
-  <div id="map" style="width: auto; height: auto; border: 1px solid #ccc"></div>
+  <div style="width: 100%; height: 80px; background: #8b2332; color: #fff;"><br/><h2>OpenStreetMap Merge</h2></div>
+  <div id="map" style="border: 1px solid #ccc"></div>
   <script>
     var tileLayers = {
       naip: new L.tileLayer('http://navigator.er.usgs.gov/tiles/tilecache.cgi/1.0.0/naip/{z}/{x}/{y}',
@@ -26,7 +37,12 @@
           '<a href="http://www.usgs.gov/laws/policies_notices.html" target="_blank">Policies</a>'
         ].join(' | ')
       }),
-      bing: new L.BingLayer('Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU'), // OSM Bing Key
+      bing: new L.BingLayer('Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU', // OSM Bing Key
+      {
+        attribution: ['Bing Imagery',
+        '<a href="http://www.usgs.gov" target="_blank">U.S. Geological Survey</a>',
+        'OpenStreetMap'].join(' | ')
+      }),
       mapQuestTile: new L.OSM.MapQuestOpen()
     };
     map = new L.Map('map',
