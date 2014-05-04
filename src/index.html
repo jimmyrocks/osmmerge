@@ -17,13 +17,14 @@
 </head>
 
 <body>
-  <div id="map" style="border: 1px solid #ccc"></div>
-  <div id="sidebar">
-    <h1>leaflet-sidebar</h1>
-  </div>
-  <script>
-    L.osmMerge.load('map');
-  </script>
-</body>
+  <div id="map"></div>
+  <div id="sidebar"></div>
+<script>
+  // Load the map
+  (function() {
+    window.L.osmMerge.init('map');
+  }());
+</script>
 
+</body>
 </html>
