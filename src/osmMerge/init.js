@@ -100,12 +100,14 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     });
   };
   L.osmMerge.utils = {
-    fandlebars: function(text, replaceValues) {
+    fandlebars: function(text, origTree) {
       // This is my quick and dirty version of handlebars
       var re = function(name) {
         return new RegExp('{{' + name + '}}', 'g');
       },
-        replaceValue,
+        replaceables,
+        replaceAddress,
+        replaceValueId,
         treeSearch = function(addresses, tree) {
           if (tree[addresses[0]]) {
             if (typeof(tree[addresses[0]]) === 'object' && addresses.length > 0) {
@@ -119,13 +121,13 @@ module.exports = function(mapDiv, layers, defaultLayer) {
             return undefined;
           }
         };
-      if (Object.prototype.toString.call(replaceValues) === '[object Object]') {
-        var replaceables = text.match(re('.+?'));
+      if (Object.prototype.toString.call(origTree) === '[object Object]') {
+        replaceables = text.match(re('.+?'));
         if (replaceables) {
-          for (replaceValue = 0; replaceValue < replaceables.length; replaceValue++) {
-            var replaceAddress = replaceables[replaceValue].replace(re('(.+?)'), '$1').split('.');
-            console.log(1, replaceValue, replaceables, replaceAddress, replaceables[replaceValue]);
-            text = text.replace(replaceables[replaceValue], treeSearch(replaceAddress, replaceValues));
+          for (replaceValueId = 0; replaceValueId < replaceables.length; replaceValueId++) {
+            replaceAddress = replaceables[replaceValueId].replace(re('(.+?)'), '$1').split('.');
+            console.log(1, replaceValueId, replaceables, replaceAddress, replaceables[replaceValueId]);
+            text = text.replace(replaceables[replaceValueId], treeSearch(replaceAddress, origTree));
           }
         }
       }
