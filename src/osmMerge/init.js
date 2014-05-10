@@ -36,9 +36,9 @@ var showIntro = function() {
     }
     L.osmMerge.controls.getByName('sidebar')[0].show();
   },
-  htmlWrap = function(tag, content, id) {
+  htmlWrap = function(tag, content, id, fandlebarsObj) {
     var temp = L.DomUtil.create(tag, id);
-    temp.innerHTML = content;
+    temp.innerHTML = L.osmMerge.utils.fandlebars(content, fandlebarsObj || L.osmMerge.content);
     return temp;
   };
 
@@ -100,35 +100,33 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     });
   };
   L.osmMerge.utils = {
-    fandlebarsExtreme: function(text, replaceValues) {
+    fandlebars: function(text, replaceValues) {
       // This is my quick and dirty version of handlebars
       var re = function(name) {
         return new RegExp('{{' + name + '}}', 'g');
       },
         replaceValue,
-        treeSearch = function(address, addresses, tree) {
-          if (tree[addresses[address]]) {
-            if (typeof(tree[addresses[address]]) === 'object' && address < addresses.length) {
-              return treeSearch(address + 1, addresses, tree[addresses[address]]);
-            } else if (typeof(tree[addresses[address]]) === 'string' && address === addresses.length) {
-              return tree[addresses[address]];
+        treeSearch = function(addresses, tree) {
+          if (tree[addresses[0]]) {
+            if (typeof(tree[addresses[0]]) === 'object' && addresses.length > 0) {
+              return treeSearch(addresses.slice(1), tree[addresses[0]]);
+            } else if (typeof(tree[addresses[0]]) === 'string' && addresses.length === 1) {
+              return tree[addresses[0]];
+            } else {
+              return undefined;
             }
           } else {
             return undefined;
           }
         };
-      if (Object.prototype.toString.call(replaceValues) === '[object Array]') {
-        // tradition fandlebars
-        for (replaceValue in replaceValues) {
-          if (text.search(re(replaceValue)) >= 0) {
-            text = text.replace(re(replaceValue), replaceValues[replaceValue]);
-          }
-        }
-      } else if (Object.prototype.toString.call(replaceValues) === '[object Object]') {
+      if (Object.prototype.toString.call(replaceValues) === '[object Object]') {
         var replaceables = text.match(re('.+?'));
-        for (replaceValue in replaceables) {
-          var replaceAddress = replaceValue.replace(re('(.+?)'), '$1').split('.');
-          text = text.replace(re(replaceValue), tree(0, replaceAddress, replaceValues));
+        if (replaceables) {
+          for (replaceValue = 0; replaceValue < replaceables.length; replaceValue++) {
+            var replaceAddress = replaceables[replaceValue].replace(re('(.+?)'), '$1').split('.');
+            console.log(1, replaceValue, replaceables, replaceAddress, replaceables[replaceValue]);
+            text = text.replace(replaceables[replaceValue], treeSearch(replaceAddress, replaceValues));
+          }
         }
       }
 
@@ -143,6 +141,5 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     }
     L.osmMerge.controls[i].addTo(map);
   }
-  L.osmMerge.content.init();
   showIntro();
 };
