@@ -22,49 +22,18 @@ module.exports = {
       }
     }
   },
-  'header': {},
-  'navigation': {},
-  'sidebars': {},
-  'init': function() {
-    L.osmMerge.content.sidebars = {
-      intro: {
-        'header': L.osmMerge.content.project.title,
-        'subheader': L.osmMerge.content.project.description,
-        'content': [
-          'Welcome to osmMerge, where we are using ',
-          'crowdsourcing to merge point data from the USGS National Map Corps ',
-          'project into OpenStreetMap.<br/>Click the buttons below to continue'
-        ].join(''),
-        'buttons': [{
-          'title': 'Demo'
-        }, {
-          'title': 'Start'
-        }]
-      }
-    };
+  'sidebars': {
+    intro: {
+      'header': '{{project.title}}',
+      'subheader': '{{project.description}}',
+      'content': 'Welcome to osmMerge, where we are using crowdsourcing ' +
+        'to merge point data from the USGS National Map Corps project ' +
+        'into OpenStreetMap.<br/>Click the buttons below to continue'
+      'buttons': [{
+        'title': 'Demo'
+      }, {
+        'title': 'Start'
+      }]
+    }
   },
 };
-
-  /*var pages = {
-      intro: function(className) {
-        var container = L.DomUtil.create('div', className),
-          components = {
-            description = L.DomUtil.create('div', 'description');
-            description.innerHTML = 'Welcome to osmMerge, where we are using ' +
-              'crowdsourcing to merge point data from the USGS National Map Corps ' +
-              'project into OpenStreetMap.<br/>Click the buttons below to continue';
-            var introButtons = L.DomUtil.create('div', 'introButtons');
-            var demoButton = L.DomUtil.create('button', 'demoButton');
-            demoButton.setAttribute('class', 'btn btn-primary');
-            demoButton.textContent = 'Demo';
-            var startButton = L.DomUtil.create('button', 'startButton');
-            startButton.setAttribute('class', 'btn btn-primary');
-            startButton.textContent = 'Start';
-            introButtons.appendChild(demoButton);
-            introButtons.appendChild(startButton);
-            me.sidebars.intro.content.appendChild(description);
-            me.sidebars.intro.content.appendChild(introButtons);
-          }
-      }
-    };
-*/
