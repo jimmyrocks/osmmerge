@@ -26,16 +26,26 @@ module.exports = {
   'navigation': {},
   'sidebars': {},
   'init': function() {
-    // Creates the things that require functions
-    var me = L.osmMerge.content;
-
-    me.sidebars.intro = {
-      'header': L.osmMerge.content.project.title,
-      'subheader': L.osmMerge.content.project.description,
-      'content': pages.intro('introSidebar');
+    L.osmMerge.content.sidebars = {
+      intro: {
+        'header': L.osmMerge.content.project.title,
+        'subheader': L.osmMerge.content.project.description,
+        'content': [
+          'Welcome to osmMerge, where we are using ',
+          'crowdsourcing to merge point data from the USGS National Map Corps ',
+          'project into OpenStreetMap.<br/>Click the buttons below to continue'
+        ].join(''),
+        'buttons': [{
+          'title': 'Demo'
+        }, {
+          'title': 'Start'
+        }]
+      }
     };
+  },
+};
 
-    var pages = {
+  /*var pages = {
       intro: function(className) {
         var container = L.DomUtil.create('div', className),
           components = {
@@ -57,3 +67,4 @@ module.exports = {
           }
       }
     };
+*/
