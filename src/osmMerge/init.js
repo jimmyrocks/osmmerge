@@ -110,9 +110,9 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         replaceValueId,
         treeSearch = function(addresses, tree) {
           if (tree[addresses[0]]) {
-            if (typeof(tree[addresses[0]]) === 'object' && addresses.length > 0) {
+            if (addresses.length > 0 && typeof(tree[addresses[0]]) === 'object') {
               return treeSearch(addresses.slice(1), tree[addresses[0]]);
-            } else if (typeof(tree[addresses[0]]) === 'string' && addresses.length === 1) {
+            } else if (typeof(addresses.length === 1 && tree[addresses[0]]) === 'string') {
               return tree[addresses[0]];
             } else {
               return undefined;
