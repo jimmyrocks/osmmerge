@@ -28,7 +28,7 @@ module.exports = {
       'subheader': '{{project.description}}',
       'content': 'Welcome to osmMerge, where we are using crowdsourcing ' +
         'to merge point data from the USGS National Map Corps project ' +
-        'into OpenStreetMap.<br/>Click the buttons below to continue'
+        'into OpenStreetMap.<br/>Click the buttons below to continue',
       'buttons': [{
         'title': 'Demo'
       }, {
