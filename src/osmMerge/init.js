@@ -1,46 +1,46 @@
 var showIntro = function() {
   console.log('DON\'T USE THIS FUNCTION');
   showPage('intro');
-    $('.header').empty();
-    $('.header')[0].appendChild(htmlWrap('h3',L.osmMerge.content.project.title + ': ' + L.osmMerge.content.project.tagline, 'title'));
+  $('.header').empty();
+  $('.header')[0].appendChild(htmlWrap('h3', L.osmMerge.content.project.title + ': ' + L.osmMerge.content.project.tagline, 'title'));
 },
-drawButtons = function(buttonList, id) {
-  var button, buttonId, buttonObj,
-  buttonContainer = L.DomUtil.create('div', id);
-  for (buttonId=0; buttonId < buttonList.length; buttonId++) {
-    button = buttonList[buttonId];
-    buttonObj = L.DomUtil.create('button', 'btn btn-' + (button.style || 'primary'));
-    buttonObj.textContent = button.title;
-    buttonContainer.appendChild(buttonObj);
-  }
-  return buttonContainer;
-},
-showPage = function(page) {
-  var pageObj;
-  // Allow page name or page object to be passed in
-  if (typeof(page) === 'string') {
-    pageObj = L.osmMerge.content.sidebars[page];
-  } else {
-    pageObj = page;
-  }
-  var content = [
-    htmlWrap('h2', pageObj.header, 'sidebarHeader'),
-    htmlWrap('h4', pageObj.subheader, 'sidebarSubheader'),
-    htmlWrap('p', pageObj.content, 'sidebarContent'),
-    drawButtons(pageObj.buttons, 'sidebarButtons')
-  ];
+  drawButtons = function(buttonList, id) {
+    var button, buttonId, buttonObj,
+      buttonContainer = L.DomUtil.create('div', id);
+    for (buttonId = 0; buttonId < buttonList.length; buttonId++) {
+      button = buttonList[buttonId];
+      buttonObj = L.DomUtil.create('button', 'btn btn-' + (button.style || 'primary'));
+      buttonObj.textContent = button.title;
+      buttonContainer.appendChild(buttonObj);
+    }
+    return buttonContainer;
+  },
+  showPage = function(page) {
+    var pageObj;
+    // Allow page name or page object to be passed in
+    if (typeof(page) === 'string') {
+      pageObj = L.osmMerge.content.sidebars[page];
+    } else {
+      pageObj = page;
+    }
+    var content = [
+      htmlWrap('h2', pageObj.header, 'sidebarHeader'),
+      htmlWrap('h4', pageObj.subheader, 'sidebarSubheader'),
+      htmlWrap('p', pageObj.content, 'sidebarContent'),
+      drawButtons(pageObj.buttons, 'sidebarButtons')
+    ];
 
-$('#sidebar').empty();
-for (var i=0; i<content.length; i++) {
-  $('#sidebar')[0].appendChild(content[i]);
-}
-L.osmMerge.controls.getByName('sidebar')[0].show();
-},
-htmlWrap = function(tag, content, id) {
-  var temp = L.DomUtil.create(tag, id);
-  temp.innerHTML = content;
-  return temp;
-};
+    $('#sidebar').empty();
+    for (var i = 0; i < content.length; i++) {
+      $('#sidebar')[0].appendChild(content[i]);
+    }
+    L.osmMerge.controls.getByName('sidebar')[0].show();
+  },
+  htmlWrap = function(tag, content, id) {
+    var temp = L.DomUtil.create(tag, id);
+    temp.innerHTML = content;
+    return temp;
+  };
 
 module.exports = function(mapDiv, layers, defaultLayer) {
   L.osmMerge.tileLayers = layers || {
@@ -100,17 +100,38 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     });
   };
   L.osmMerge.utils = {
-    fandleBars: function(text, replaceValues) {
+    fandlebarsExtreme: function(text, replaceValues) {
       // This is my quick and dirty version of handlebars
       var re = function(name) {
         return new RegExp('{{' + name + '}}', 'g');
       },
-        replaceValue;
-      for (replaceValue in replaceValues) {
-        if (text.search(re(replaceValue)) >= 0) {
-          text = text.replace(re(replaceValue), replaceValues[replaceValue]);
+        replaceValue,
+        treeSearch = function(address, addresses, tree) {
+          if (tree[addresses[address]]) {
+            if (typeof(tree[addresses[address]]) === 'object' && address < addresses.length) {
+              return treeSearch(address + 1, addresses, tree[addresses[address]]);
+            } else if (typeof(tree[addresses[address]]) === 'string' && address === addresses.length) {
+              return tree[addresses[address]];
+            }
+          } else {
+            return undefined;
+          }
+        };
+      if (Object.prototype.toString.call(replaceValues) === '[object Array]') {
+        // tradition fandlebars
+        for (replaceValue in replaceValues) {
+          if (text.search(re(replaceValue)) >= 0) {
+            text = text.replace(re(replaceValue), replaceValues[replaceValue]);
+          }
+        }
+      } else if (Object.prototype.toString.call(replaceValues) === '[object Object]') {
+        var replaceables = text.match(re('.+?'));
+        for (replaceValue in replaceables) {
+          var replaceAddress = replaceValue.replace(re('(.+?)'), '$1').split('.');
+          text = text.replace(re(replaceValue), tree(0, replaceAddress, replaceValues));
         }
       }
+
       return text;
     }
   };
