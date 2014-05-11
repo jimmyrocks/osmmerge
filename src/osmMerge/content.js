@@ -36,6 +36,25 @@ module.exports = {
         'title': 'Begin',
         'action': {'beginMatching': null}
       }]
+    },
+    'match': {
+      'header': 'Verify Match',
+      'subheader': 'Are these two points the same?',
+      'content': 'Please verify that these two points refer to the same ' +
+        'place in both the USGS and OpenStreetMap projects by clicking ' +
+        'on the buttons below',
+      'buttons':[{
+        'title': 'Yes, they match',
+        'style': 'success',
+        'action': {'message': ['You said yes!']}
+      },{
+        'title': 'No, these are different',
+        'style': 'danger',
+        'action': {'message': ['No match']}
+      }, {
+        'title': 'Pass / I Don\'t know',
+        'action': {'message': ['Next group']}
+      }]
     }
   },
 };
