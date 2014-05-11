@@ -4,11 +4,23 @@ var showHeader = function() {
 },
   drawButtons = function(buttonList, id) {
     var button, buttonId, buttonObj,
-      buttonContainer = L.DomUtil.create('div', id);
+      buttonContainer = L.DomUtil.create('div', id),
+      buttonClick = function(e) {
+        var btn = buttonList[$(e.target)[0].getAttribute('data-arrayindex')];
+        if (btn.action) {
+          for (var actionName in btn.action) {
+            if (L.osmMerge.actions[actionName]) {
+              L.osmMerge.actions[actionName].apply(this, btn.action[actionName]);
+            }
+          }
+        }
+      };
     for (buttonId = 0; buttonId < buttonList.length; buttonId++) {
       button = buttonList[buttonId];
       buttonObj = L.DomUtil.create('button', 'btn btn-' + (button.style || 'primary'));
+      buttonObj.setAttribute('data-arrayIndex', buttonId);
       buttonObj.textContent = button.title;
+      $(buttonObj).on('click', buttonClick);
       buttonContainer.appendChild(buttonObj);
     }
     return buttonContainer;
