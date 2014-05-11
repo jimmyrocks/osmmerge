@@ -197,7 +197,9 @@ module.exports = function(mapDiv, layers, defaultLayer) {
       }
       return messageName;
     },
-    'beginMatching': function(val) {
+    'beginMatching': function() {
+      $('.header').empty();
+      showPage('match');
     }
   };
 
