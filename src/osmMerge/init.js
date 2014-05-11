@@ -1,6 +1,4 @@
-var showIntro = function() {
-  console.log('DON\'T USE THIS FUNCTION');
-  showPage('intro');
+var showHeader = function() {
   $('.header').empty();
   $('.header')[0].appendChild(htmlWrap('h3', L.osmMerge.content.project.title + ': ' + L.osmMerge.content.project.tagline, 'title'));
 },
@@ -34,6 +32,7 @@ var showIntro = function() {
     for (var i = 0; i < content.length; i++) {
       $('#sidebar')[0].appendChild(content[i]);
     }
+    $('.leaflet-sidebar')[0].style.zIndex = 1040;
     L.osmMerge.controls.getByName('sidebar')[0].show();
   },
   htmlWrap = function(tag, content, id, fandlebarsObj) {
@@ -126,13 +125,62 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         if (replaceables) {
           for (replaceValueId = 0; replaceValueId < replaceables.length; replaceValueId++) {
             replaceAddress = replaceables[replaceValueId].replace(re('(.+?)'), '$1').split('.');
-            console.log(1, replaceValueId, replaceables, replaceAddress, replaceables[replaceValueId]);
             text = text.replace(replaceables[replaceValueId], treeSearch(replaceAddress, origTree));
           }
         }
       }
 
       return text;
+    },
+    setAttributes: function (htmlObject, attributes) {
+      var attribute;
+      for (attribute in attributes) {
+        htmlObject.setAttribute(attribute, attributes[attribute]);
+      }
+      return htmlObject;
+    }
+  };
+
+  L.osmMerge.actions = {
+    'message': function(msg, title, delayedDisplay) {
+      var messageName = 'message-' + (Math.round(Math.random()*10000)),
+        outerDiv = L.DomUtil.create('div', 'modal fad ' + messageName),
+        innerDiv = L.DomUtil.create('div', 'modal-dialog'),
+        contentDiv = L.DomUtil.create('div', 'modal-content'),
+        headerDiv = L.DomUtil.create('div', 'modal-header'),
+        bodyDiv = L.DomUtil.create('div', 'modal-body'),
+        footerDiv = L.DomUtil.create('div', 'modal-footer'),
+        titleDiv = L.DomUtil.create('h4', 'label-' + messageName),
+        closeBox=L.DomUtil.create('button', 'close');
+        closeButton=L.DomUtil.create('button', 'btn btn-default');
+      L.osmMerge.utils.setAttributes(closeBox,{'data-dismiss': 'modal', 'aria-hidden':'true'});
+      L.osmMerge.utils.setAttributes(closeButton,{'data-dismiss': 'modal'});
+      closeBox.innerHTML = '&times';
+      closeButton.innerHTML = 'Close';
+      L.osmMerge.utils.setAttributes(outerDiv, {
+        'tabindex': '-1',
+        'role': 'dialog',
+        'aria-labelledby': 'label-' + messageName,
+        'aria-hidden': 'true'
+      });
+      titleDiv.innerHTML = title || L.osmMerge.content.project.title + ': Message';
+      bodyDiv.innerHTML = msg;
+      footerDiv.appendChild(closeButton);
+      headerDiv.appendChild(closeBox);
+      headerDiv.appendChild(titleDiv);
+      contentDiv.appendChild(headerDiv);
+      contentDiv.appendChild(bodyDiv);
+      contentDiv.appendChild(footerDiv);
+      innerDiv.appendChild(contentDiv);
+      outerDiv.appendChild(innerDiv);
+      $('body').append(outerDiv);
+
+      if (!delayedDisplay) {
+        $('.' + messageName).modal();
+      }
+      return messageName;
+    },
+    'beginMatching': function(val) {
     }
   };
 
@@ -143,5 +191,6 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     }
     L.osmMerge.controls[i].addTo(map);
   }
-  showIntro();
+  showHeader();
+  showPage('intro');
 };
