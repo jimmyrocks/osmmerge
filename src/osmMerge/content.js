@@ -23,7 +23,7 @@ module.exports = {
     }
   },
   'sidebars': {
-    intro: {
+    'intro': {
       'header': '{{project.title}}',
       'subheader': '{{project.description}}',
       'content': 'Welcome to osmMerge, where we are using crowdsourcing ' +
@@ -31,7 +31,7 @@ module.exports = {
         'into OpenStreetMap.<br/>Click the buttons below to continue',
       'buttons': [{
         'title': 'Demo',
-        'action': {'message': 'Not Implemented'}
+        'action': {'message': ['Demo not implemented yet.', 'No Demo']}
       }, {
         'title': 'Begin',
         'action': {'beginMatching': null}
