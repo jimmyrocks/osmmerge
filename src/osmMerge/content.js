@@ -30,9 +30,11 @@ module.exports = {
         'to merge point data from the USGS National Map Corps project ' +
         'into OpenStreetMap.<br/>Click the buttons below to continue',
       'buttons': [{
-        'title': 'Demo'
+        'title': 'Demo',
+        'action': {'message': 'Not Implemented'}
       }, {
-        'title': 'Start'
+        'title': 'Begin',
+        'action': {'beginMatching': null}
       }]
     }
   },
