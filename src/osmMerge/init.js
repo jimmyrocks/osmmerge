@@ -142,7 +142,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
   };
 
   L.osmMerge.actions = {
-    'message': function(msg, title, delayedDisplay) {
+    'message': function(msg, title, delayedDisplay, persist) {
       var messageName = 'message-' + (Math.round(Math.random()*10000)),
         outerDiv = L.DomUtil.create('div', 'modal fad ' + messageName),
         innerDiv = L.DomUtil.create('div', 'modal-dialog'),
@@ -177,6 +177,11 @@ module.exports = function(mapDiv, layers, defaultLayer) {
 
       if (!delayedDisplay) {
         $('.' + messageName).modal();
+        if (!persist) {
+          $('.' + messageName).on('hidden.bs.modal', function(e) {
+            $('.' + messageName).remove();
+          });
+        }
       }
       return messageName;
     },
