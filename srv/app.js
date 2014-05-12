@@ -2,9 +2,10 @@ var koa = require('koa'),
   koaPg = require('koa-pg'),
   route = require('koa-route'),
   routes = require('./routes'),
+  settings = require('./settings')
   app = koa();
 
-app.use(koaPg('postgres://postgres:password@localhost:5432/usgs'));
+app.use(koaPg('postgres://postgres:' + settings.password + '@localhost:5432/' settings.db_name + '));
 
 for (var currRoute in routes) {
   app.use(route.get(currRoute, routes[currRoute]));
