@@ -1,0 +1,11 @@
+{
+  "name": "OsmMerge",
+  "description": "Allows users to merge data from on OpenStreetMap based project to another",
+  "author": "Jim McAndrew <jim@loc8.us>",
+  "dependencies": {
+    "koa": "0.6.0",
+    "koa-route": "1.1.4",
+    "koa-send": "1.2.3",
+    "koa-pg": "0.23.0"
+  }
+}

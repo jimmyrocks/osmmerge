@@ -1,0 +1,31 @@
+{
+  "select": {
+    "randomPoint": ["SELECT ",
+      "usgs_tags::json, ",
+      "st_asgeojson(usgs_geom) as usgs_point, ",
+      "osm_tags::json, ",
+      "st_asgeojson(osm_geom) as osm_point ",
+      "FROM ",
+      "  matched_nodes_validated ",
+      "WHERE ",
+      "  distance > 20 AND ",
+      "  usgs_id NOT IN ( ",
+      "    SELECT usgs_id FROM ( ",
+      "      SELECT ",
+      "        usgs_id, ",
+      "        count(*) AS occurance ",
+      "       FROM ",
+      "         approved_nodes ",
+      "       GROUP BY usgs_id ",
+      "     ) j ",
+      "    WHERE ",
+      "      occurance > 1 ",
+      "  ) ",
+      "OFFSET ",
+      "  RANDOM() * ( ",
+      "    SELECT COUNT(*) FROM matched_nodes_validated ",
+      "  ) ",
+      "LIMIT 1; "
+    ]
+  }
+}
