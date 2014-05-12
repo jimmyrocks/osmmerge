@@ -3,7 +3,7 @@ var showHeader = function() {
   $('.header')[0].appendChild(htmlWrap('h3', L.osmMerge.content.project.title + ': ' + L.osmMerge.content.project.tagline, 'title'));
 },
   drawButtons = function(buttonList, id) {
-    var button, buttonId, buttonObj,
+    var button, buttonId, buttonObj, btnWidth,
       buttonContainer = L.DomUtil.create('div', id),
       buttonClick = function(e) {
         var btn = buttonList[$(e.target)[0].getAttribute('data-arrayindex')];
@@ -15,9 +15,10 @@ var showHeader = function() {
           }
         }
       };
+    btnWidth = (buttonList.length > 2) ? 'center-block' : 'col-md-6';
     for (buttonId = 0; buttonId < buttonList.length; buttonId++) {
       button = buttonList[buttonId];
-      buttonObj = L.DomUtil.create('button', 'btn btn-' + (button.style || 'primary'));
+      buttonObj = L.DomUtil.create('button', 'btn btn-' + (button.style || 'primary') + ' ' + btnWidth);
       buttonObj.setAttribute('data-arrayIndex', buttonId);
       buttonObj.textContent = button.title;
       $(buttonObj).on('click', buttonClick);
@@ -79,6 +80,8 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     zoom: 16,
     zoomControl: false
   });
+
+  L.Icon.Default.imagePath = 'images';
 
   // Controls
   L.osmMerge.controls = [
@@ -144,7 +147,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
 
       return text;
     },
-    setAttributes: function (htmlObject, attributes) {
+    setAttributes: function(htmlObject, attributes) {
       var attribute;
       for (attribute in attributes) {
         htmlObject.setAttribute(attribute, attributes[attribute]);
@@ -155,7 +158,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
 
   L.osmMerge.actions = {
     'message': function(msg, title, delayedDisplay, persist) {
-      var messageName = 'message-' + (Math.round(Math.random()*10000)),
+      var messageName = 'message-' + (Math.round(Math.random() * 10000)),
         outerDiv = L.DomUtil.create('div', 'modal fad ' + messageName),
         innerDiv = L.DomUtil.create('div', 'modal-dialog'),
         contentDiv = L.DomUtil.create('div', 'modal-content'),
@@ -163,10 +166,15 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         bodyDiv = L.DomUtil.create('div', 'modal-body'),
         footerDiv = L.DomUtil.create('div', 'modal-footer'),
         titleDiv = L.DomUtil.create('h4', 'label-' + messageName),
-        closeBox=L.DomUtil.create('button', 'close');
-        closeButton=L.DomUtil.create('button', 'btn btn-default');
-      L.osmMerge.utils.setAttributes(closeBox,{'data-dismiss': 'modal', 'aria-hidden':'true'});
-      L.osmMerge.utils.setAttributes(closeButton,{'data-dismiss': 'modal'});
+        closeBox = L.DomUtil.create('button', 'close');
+      closeButton = L.DomUtil.create('button', 'btn btn-default');
+      L.osmMerge.utils.setAttributes(closeBox, {
+        'data-dismiss': 'modal',
+        'aria-hidden': 'true'
+      });
+      L.osmMerge.utils.setAttributes(closeButton, {
+        'data-dismiss': 'modal'
+      });
       closeBox.innerHTML = '&times';
       closeButton.innerHTML = 'Close';
       L.osmMerge.utils.setAttributes(outerDiv, {
@@ -199,6 +207,25 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     },
     'beginMatching': function() {
       $('.header').empty();
+      $.getJSON('get/new', function(data) {
+        console.log(data);
+        var osmPoint, usgsPoint;
+        if (data && data.usgs_point) {
+          //L.geoJson(JSON.parse(data.usgs_point)).addTo(map);
+          usgsPoint = JSON.parse(data.usgs_point);
+          usgsPoint.properties = data.usgs_tags;
+        }
+        if (data && data.osm_point) {
+          //L.geoJson(JSON.parse(data.osm_point)).addTo(map);
+          osmPoint = JSON.parse(data.osm_point);
+          usgsPoint.properties = data.osm_tags;
+        }
+        L.geoJson([osmPoint, usgsPoint], {
+          onEachFeature: function(feature, layer) {
+            layer.bindPopup(JSON.stringify(feature, null, 2));
+          }
+        }).addTo(map);
+      });
       showPage('match');
     }
   };
