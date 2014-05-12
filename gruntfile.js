@@ -21,6 +21,12 @@ module.exports = function(grunt) {
       dist: {
         src: 'src/index.html',
         dest: 'dist/index.html'
+      },
+      leaflet_images: {
+        expand: true,
+        flatten: true,
+        src: 'node_modules/leaflet/dist/images/**',
+        dest: 'dist/images/'
       }
     },
     concat: {
@@ -85,6 +91,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
 
   //grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('default', ['clean', 'jshint', 'concat', 'browserify', 'copy:dist']);
+  grunt.registerTask('default', ['clean', 'jshint', 'concat', 'browserify', 'copy:dist', 'copy:leaflet_images']);
 
 };
