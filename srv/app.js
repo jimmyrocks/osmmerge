@@ -11,7 +11,7 @@ app.use(koaPg(
   config.database.password + '@' +
   config.database.host + ':' +
   config.database.port + '/' +
-  config.db_name));
+  config.database.db_name));
 
 for (var currRoute in routes) {
   app.use(route.get(currRoute, routes[currRoute]));
