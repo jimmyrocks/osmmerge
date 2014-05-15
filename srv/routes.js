@@ -20,11 +20,12 @@ module.exports = {
     var result = yield this.pg.db.client.query_(queries.select.test.join(''));
     this.body = JSON.stringify(result.rows[0], null, 2);
   },
-  '/set/match/:usgsId/:osmId': function * matchPoints(usgsId, osmId) {
+  '/set/match/:usgsId/:osmId/:matchId': function * matchPoints(usgsId, osmId, matchId) {
     var result = yield this.pg.db.client.query_(
       fandlebars(queries.insert.match.join(''), {
         'usgsId': usgsId,
-        'osmId': osmId
+        'osmId': osmId,
+        'matchId': matchId
       })
     );
     this.body = JSON.stringify(result.rows[0], null, 2);
