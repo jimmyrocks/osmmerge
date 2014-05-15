@@ -42,7 +42,9 @@ module.exports = {
       'subheader': 'Are these two points the same?',
       'content': 'Please verify that these two points refer to the same ' +
         'place in both the USGS and OpenStreetMap projects by clicking ' +
-        'on the buttons below',
+        'on the buttons below. <br><br>' +
+        'You can click on the placemarkers to read the information about ' +
+        'point on the map. ',
       'buttons':[{
         'title': 'Yes, they match',
         'style': 'success',
