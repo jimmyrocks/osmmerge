@@ -1,7 +1,7 @@
 var send = require('koa-send'),
   fandlebars = require('./fandlebars'),
-  queries = require('./sql.json'),
-  distDir = '/' + __dirname.split('/').slice(1, -1).join('/') + '/dist';
+queries = require('./sql.json'),
+distDir = '/' + __dirname.split('/').slice(1, -1).join('/') + '/dist';
 module.exports = {
   '/': function * root() {
     yield send(this, distDir + '/index.html');
@@ -14,16 +14,31 @@ module.exports = {
   },
   '/get/new': function * getNewPoint(format) {
     var result = yield this.pg.db.client.query_(queries.select.randomPoint.join(''));
-    console.log( !! result.rows[0]);
     this.body = JSON.stringify(result.rows[0], null, 2);
   },
   '/get/test': function * getTestPoint(format) {
     var result = yield this.pg.db.client.query_(queries.select.test.join(''));
-    console.log( !! result.rows[0]);
     this.body = JSON.stringify(result.rows[0], null, 2);
   },
   '/set/match/:usgsId/:osmId': function * matchPoints(usgsId, osmId) {
     var result = yield this.pg.db.client.query_(
-      queries.insert.match.join(''));
+      fandlebars(queries.insert.match.join(''), {
+        'usgsId': usgsId,
+        'osmId': osmId
+      })
+    );
+    this.body = JSON.stringify(result.rows[0], null, 2);
+  },
+  '/get/test2/:textValue': function * getTest2(textValue) {
+    var result = yield wait(1000, textValue);
+    this.body = result;
   }
 };
+
+function wait(time, textValue) {
+  return function(callback) {
+    setTimeout(function() {
+      callback(null, textValue);
+    }, time);
+  };
+}
