@@ -46,11 +46,11 @@ module.exports = {
       'buttons':[{
         'title': 'Yes, they match',
         'style': 'success',
-        'action': {'message': ['You said yes!']}
+        'action': {'message': ['You said yes!'], 'sendMatch': null}
       },{
         'title': 'No, these are different',
         'style': 'danger',
-        'action': {'message': ['No match']}
+        'action': {'message': ['Since these don\'t match, let\'s try a different one!'], 'beginMatching': null}
       }, {
         'title': 'Pass / I Don\'t know',
         'action': {'beginMatching': null}
