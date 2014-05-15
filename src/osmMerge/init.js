@@ -235,7 +235,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
       $.getJSON('/set/match/' + 
         L.osmMerge.store.matchData.usgs_id + 
         '/' + L.osmMerge.store.matchData.osm_id + 
-        '/' + L.osmMerge.store.matchData.matchId, function(data) {
+        '/' + L.osmMerge.store.matchData.matchid, function(data) {
         console.log('yay', data);
       });
     }
