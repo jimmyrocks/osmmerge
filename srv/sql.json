@@ -40,7 +40,7 @@
       "  null, ",
       "  null, ",
       "  null, ",
-      "  {{matchId}}, ",
+      "  '{{matchId}}', ",
       "  false, ",
       "  {{match}} ",
       "); "
