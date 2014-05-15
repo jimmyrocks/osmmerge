@@ -29,5 +29,17 @@
       "random() < 0.01 ",
       "LIMIT 1; "
     ]
+  },
+  "insert": {
+    "match": ["INSERT INTO ",
+      "  approved_nodes ",
+      "VALUES ( ",
+      "  {{usgsId}}, ",
+      "  {{osmId}}, ",
+      "  null, ",
+      "  null, ",
+      "  null ",
+      "); "
+    ]
   }
 }
