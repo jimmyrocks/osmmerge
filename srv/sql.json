@@ -41,7 +41,8 @@
       "  null, ",
       "  null, ",
       "  {{matchId}}, ",
-      "  false ",
+      "  false, ",
+      "  {{match}} ",
       "); "
     ]
   }
