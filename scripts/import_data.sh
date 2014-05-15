@@ -34,9 +34,10 @@ sudo -u postgres createdb -E UTF8 $dbname_usgs
 sudo -u postgres psql -d $dbname_usgs -c "CREATE EXTENSION postgis;"
 sudo -u postgres psql -d $dbname_usgs -c "CREATE EXTENSION postgis_topology;"
 sudo -u postgres psql -d $dbname_usgs -c "CREATE EXTENSION hstore;"
+sudo -u postgres psql -d $dbname_usgs -c "CREATE EXTENSION uuid-ossp;"
 # http://www.postgresql.org/docs/current/static/postgres-fdw.html
 # http://www.postgresql.org/docs/current/static/postgres-fdw.html
-stgres 
+#stgres 
 sudo -u postgres psql -d $dbname_usgs -c "CREATE EXTENSION postgres_fdw;"
 sudo -u postgres psql -d $dbname_usgs -f ../data/pgsnapshot_schema_0.6.sql
 
