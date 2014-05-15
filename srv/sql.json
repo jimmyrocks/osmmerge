@@ -39,7 +39,9 @@
       "  {{osmId}}, ",
       "  null, ",
       "  null, ",
-      "  null ",
+      "  null, ",
+      "  {{matchId}}, "
+      "  false "
       "); "
     ]
   }
