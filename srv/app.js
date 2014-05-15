@@ -3,10 +3,13 @@ var koa = require('koa'),
   route = require('koa-route'),
   routes = require('./routes'),
   config = require('./config'),
+  gzip = require('koa-gzip'),
   app = koa();
 
+app.use(gzip());
+
 app.use(koaPg(
-  'postgres://' + 
+  'postgres://' +
   config.database.username + ':' +
   config.database.password + '@' +
   config.database.host + ':' +
