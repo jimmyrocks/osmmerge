@@ -46,14 +46,33 @@ module.exports = {
       'buttons':[{
         'title': 'Yes, they match',
         'style': 'success',
-        'action': {'message': ['You said yes!'], 'sendMatch': null}
+        'action': {'message': ['You said yes!'], 'sendMatch': ['true']}
       },{
         'title': 'No, these are different',
         'style': 'danger',
-        'action': {'message': ['Since these don\'t match, let\'s try a different one!'], 'beginMatching': null}
+        'action': {'message': ['Since these don\'t match, let\'s try a different one!'],
+          'sendMatch': ['false'],
+          'beginMatching': null
+        }
       }, {
         'title': 'Pass / I Don\'t know',
         'action': {'beginMatching': null}
+      }]
+    },
+    'tags': {
+      'header': 'Which Tags Are Correct?',
+      'subheader': 'Select the tags that should be on the point.',
+      'content': 'THERE WILL BE TABLE HERE',
+      'buttons':[{
+        'title': 'All Done, Continue',
+        'style': 'success',
+        'action': {'message': ['You said continue!']}
+      },{
+        'title': 'Cancel',
+        'style': 'danger',
+        'action': {'message': ['Ok, starting over!'],
+          'beginMatching': null
+        }
       }]
     }
   },
