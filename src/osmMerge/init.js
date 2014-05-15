@@ -240,7 +240,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         console.log('yay', data);
       });
       if (status === 'true') {
-        showPage('tags')
+        showPage('tags');
       }
     }
   };
