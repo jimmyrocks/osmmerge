@@ -55,6 +55,7 @@ var showHeader = function() {
   };
 
 module.exports = function(mapDiv, layers, defaultLayer) {
+  L.osmMerge.store = {};
   L.osmMerge.tileLayers = layers || {
     'Bing (For OSM Digitizing)': new L.BingLayer('Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU', // OSM Bing Key
       {
@@ -208,7 +209,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     'beginMatching': function() {
       $('.header').empty();
       $.getJSON('get/new', function(data) {
-        console.log(data);
+        L.osmMerge.store.matchData = data;
         var osmPoint, usgsPoint;
         if (data && data.usgs_point) {
           //L.geoJson(JSON.parse(data.usgs_point)).addTo(map);
@@ -218,7 +219,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         if (data && data.osm_point) {
           //L.geoJson(JSON.parse(data.osm_point)).addTo(map);
           osmPoint = JSON.parse(data.osm_point);
-          usgsPoint.properties = data.osm_tags;
+          osmPoint.properties = data.osm_tags;
         }
         var matchLayer = L.geoJson([osmPoint, usgsPoint], {
           onEachFeature: function(feature, layer) {
@@ -229,6 +230,11 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         map.fitBounds(matchLayer.getBounds());
       });
       showPage('match');
+    },
+    'sendMatch': function() {
+      $.getJSON('/set/match/' + L.osmMerge.store.matchData.usgs_id + '/' + L.osmMerge.store.matchData.osm_id, function(data) {
+        console.log('yay', data);
+      });
     }
   };
 
