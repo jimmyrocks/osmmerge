@@ -214,7 +214,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         if (data && data.usgs_point) {
           //L.geoJson(JSON.parse(data.usgs_point)).addTo(map);
           usgsPoint = JSON.parse(data.usgs_point);
-          usgsPoint.properties = data.usgs_tags;
+          usgsPoint.properties = L.osmMerge.tags.mapUsgs(data.usgs_tags);
         }
         if (data && data.osm_point) {
           //L.geoJson(JSON.parse(data.osm_point)).addTo(map);
@@ -223,7 +223,7 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         }
         var matchLayer = L.geoJson([osmPoint, usgsPoint], {
           onEachFeature: function(feature, layer) {
-            layer.bindPopup(JSON.stringify(feature, null, 2));
+            layer.bindPopup(L.osmMerge.tags.toTable(feature.properties));
           }
         });
         matchLayer.addTo(map);
