@@ -35,12 +35,12 @@
     "match": ["INSERT INTO ",
       "  approved_nodes ",
       "VALUES ( ",
-      "  {{usgsId}}, ",
-      "  {{osmId}}, ",
+      "  '{{usgsId}}', ",
+      "  '{{osmId}}', ",
       "  null, ",
       "  null, ",
       "  null, ",
-      "  {{matchId}}, ",
+      "  '{{matchId}}', ",
       "  false ",
       "); "
     ]
