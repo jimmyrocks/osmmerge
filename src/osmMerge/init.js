@@ -220,11 +220,13 @@ module.exports = function(mapDiv, layers, defaultLayer) {
           osmPoint = JSON.parse(data.osm_point);
           usgsPoint.properties = data.osm_tags;
         }
-        L.geoJson([osmPoint, usgsPoint], {
+        var matchLayer = L.geoJson([osmPoint, usgsPoint], {
           onEachFeature: function(feature, layer) {
             layer.bindPopup(JSON.stringify(feature, null, 2));
           }
-        }).addTo(map);
+        });
+        matchLayer.addTo(map);
+        map.fitBounds(matchLayer.getBounds());
       });
       showPage('match');
     }
