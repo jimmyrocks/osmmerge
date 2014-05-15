@@ -232,9 +232,9 @@ module.exports = function(mapDiv, layers, defaultLayer) {
       showPage('match');
     },
     'sendMatch': function(status) {
-      $.getJSON('/set/match/' + 
-        L.osmMerge.store.matchData.usgs_id + 
-        '/' + status +
+      $.getJSON('/set/match' + 
+        '/' + status + 
+        '/' + L.osmMerge.store.matchData.usgs_id +
         '/' + L.osmMerge.store.matchData.osm_id + 
         '/' + L.osmMerge.store.matchData.matchid, function(data) {
         console.log('yay', data);
