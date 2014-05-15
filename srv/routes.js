@@ -1,9 +1,9 @@
 var send = require('koa-send'),
-  queries = require('./sql.json');
-  distDir = '/' + __dirname.split('/').slice(1,-1).join('/') + '/dist',
+  fandlebars = require('./fandlebars'),
+  queries = require('./sql.json'),
+  distDir = '/' + __dirname.split('/').slice(1, -1).join('/') + '/dist';
 module.exports = {
   '/': function * root() {
-    console.log(distDir);
     yield send(this, distDir + '/index.html');
   },
   '/:file.:suffix': function * getFile(file, suffix) {
@@ -14,6 +14,16 @@ module.exports = {
   },
   '/get/new': function * getNewPoint(format) {
     var result = yield this.pg.db.client.query_(queries.select.randomPoint.join(''));
+    console.log( !! result.rows[0]);
     this.body = JSON.stringify(result.rows[0], null, 2);
+  },
+  '/get/test': function * getTestPoint(format) {
+    var result = yield this.pg.db.client.query_(queries.select.test.join(''));
+    console.log( !! result.rows[0]);
+    this.body = JSON.stringify(result.rows[0], null, 2);
+  },
+  '/set/match/:usgsId/:osmId': function * matchPoints(usgsId, osmId) {
+    var result = yield this.pg.db.client.query_(
+      queries.insert.match.join(''));
   }
 };
