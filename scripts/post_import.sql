@@ -47,5 +47,5 @@ CREATE TABLE approved_nodes (
   comments text,
   id uuid,
   in_osm boolean,
-  CONSTRAINT pk_approved_nodes_osmmerge PRIMARY KEY (usgs_id)
+  nodes_match boolean
 );
