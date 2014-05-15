@@ -232,7 +232,10 @@ module.exports = function(mapDiv, layers, defaultLayer) {
       showPage('match');
     },
     'sendMatch': function() {
-      $.getJSON('/set/match/' + L.osmMerge.store.matchData.usgs_id + '/' + L.osmMerge.store.matchData.osm_id, function(data) {
+      $.getJSON('/set/match/' + 
+        L.osmMerge.store.matchData.usgs_id + 
+        '/' + L.osmMerge.store.matchData.osm_id + 
+        '/' + L.osmMerge.store.matchData.matchId, function(data) {
         console.log('yay', data);
       });
     }
