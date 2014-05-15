@@ -38,11 +38,14 @@ ANALYZE  matched_nodes_validated;
 VACUUM  matched_nodes_validated;
 
 -- Create the change tracking table
+--DROP TABLE approved_nodes;
 CREATE TABLE approved_nodes (
   usgs_id integer NOT NULL,
   osm_id integer NOT NULL,
   tags hstore,
   geom geometry(Point,4326),
   comments text,
+  id uuid,
+  in_osm boolean,
   CONSTRAINT pk_approved_nodes_osmmerge PRIMARY KEY (usgs_id)
 );
