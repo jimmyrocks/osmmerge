@@ -53,7 +53,7 @@ module.exports = {
         'action': {'message': ['No match']}
       }, {
         'title': 'Pass / I Don\'t know',
-        'action': {'message': ['Next group']}
+        'action': {'beginMatching': null}
       }]
     }
   },
