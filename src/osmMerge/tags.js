@@ -64,7 +64,7 @@ module.exports = {
     }
     return newTags;
   },
-  toTable: function(tags) {
+  toTable: function(tags, extras) {
     var table = L.DomUtil.create('table', 'tags');
     var td, tr;
     for (var row in tags) {
@@ -75,6 +75,13 @@ module.exports = {
       td = L.DomUtil.create('td', 'tags');
       td.textContent = tags[row];
       tr.appendChild(td);
+      if (extras) {
+        extras = [].concat(extras);
+        for (var i = 0; i < extras.length; i++) {
+          td = L.DomUtil.create('td', extras[i]);
+          tr.appendChild(td);
+        }
+      }
       table.appendChild(tr);
     }
     var container = L.DomUtil.create('div');
