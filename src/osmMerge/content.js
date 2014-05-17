@@ -48,7 +48,7 @@ module.exports = {
       'buttons':[{
         'title': 'Yes, they match',
         'style': 'success',
-        'action': {'message': ['You said yes!'], 'sendMatch': ['true']}
+        'action': {'sendMatch': ['true']}
       },{
         'title': 'No, these are different',
         'style': 'danger',
@@ -61,14 +61,31 @@ module.exports = {
         'action': {'beginMatching': null}
       }]
     },
-    'tags': {
-      'header': 'Which Tags Are Correct?',
-      'subheader': 'Select the tags that should be on the point.',
-      'content': 'THERE WILL BE TABLE HERE',
+    'usgsTags': {
+      'header': 'Which USGS Tags Are Correct?',
+      'subheader': 'Select the tags from the USGS point that you want to keep',
+      'content': '{{store.matchData.usgsTable}}',
       'buttons':[{
         'title': 'All Done, Continue',
         'style': 'success',
-        'action': {'message': ['You said continue!']}
+        'action': {'message': ['You said continue!'], 'acceptTags': ['usgs']}
+      },{
+        'title': 'Cancel',
+        'style': 'danger',
+        'action': {'message': ['Ok, starting over!'],
+          'beginMatching': null
+        }
+      }]
+    },
+    'osmTags': {
+      'header': 'Which OSM Tags Are Correct?',
+      'subheader': 'Select the tags from OpenStreetMap point that you want to keep',
+      'content': '{{store.matchData.osmTable}}',
+      'buttons':[{
+        'title': 'All Done, Continue',
+        'style': 'success',
+        'action': {'message': ['You said continue!'], 'acceptTags': ['osm']}
+      },{
       },{
         'title': 'Cancel',
         'style': 'danger',
