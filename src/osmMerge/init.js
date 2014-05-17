@@ -96,24 +96,43 @@ module.exports = function(mapDiv, layers, defaultLayer) {
         return header;
       }
     }),
-    L.control.layers(L.osmMerge.tileLayers, null, {
-      position: 'bottomright',
-      name: 'selector'
-    }),
     L.control.zoom({
-      position: 'topleft'
+      position: 'topright'
+    }),
+    L.control.layers(L.osmMerge.tileLayers, null, {
+      position: 'topright',
+      name: 'selector'
     }),
     L.control.sidebar('sidebar', {
       closeButton: false,
       position: 'left',
       name: 'sidebar'
+    }),
+    L.Control.extend({
+      options: {
+        position: 'topleft',
+        name: 'sidebar_toggle'
+      },
+      onAdd: function(map) {
+        var content = L.DomUtil.create('div', 'sidebar_toggle');
+        var toggleButton = L.DomUtil.create('button', 'btn btn-primary');
+        var buttonClick = function(e) {
+          L.osmMerge.controls.getByName('sidebar')[0].toggle();
+        };
+        $(toggleButton).on('click', buttonClick);
+        content.appendChild(toggleButton);
+        return content;
+      }
     })
   ];
+
   L.osmMerge.controls.getByName = function(name) {
     return L.osmMerge.controls.filter(function(a) {
       return a && a.options && a.options.name === name;
     });
   };
+
+
   L.osmMerge.utils = {
     fandlebars: function(text, origTree) {
       // This is my quick and dirty version of handlebars
@@ -227,18 +246,20 @@ module.exports = function(mapDiv, layers, defaultLayer) {
           }
         });
         matchLayer.addTo(map);
-        map.fitBounds(matchLayer.getBounds());
+        map.fitBounds(matchLayer.getBounds(), {
+          paddingTopLeft: [$('.leaflet-sidebar')[0].offsetWidth, 0]
+        });
       });
       showPage('match');
     },
     'sendMatch': function(status) {
-      $.getJSON('/set/match' + 
-        '/' + status + 
+      $.getJSON('/set/match' +
+        '/' + status +
         '/' + L.osmMerge.store.matchData.usgs_id +
-        '/' + L.osmMerge.store.matchData.osm_id + 
+        '/' + L.osmMerge.store.matchData.osm_id +
         '/' + L.osmMerge.store.matchData.matchid, function(data) {
-        console.log('yay', data);
-      });
+          console.log('yay', data);
+        });
       if (status === 'true') {
         showPage('tags');
       }
@@ -252,6 +273,16 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     }
     L.osmMerge.controls[i].addTo(map);
   }
+
+  var setCloseButton = function(str) {
+    $('.sidebar_toggle button')[0].textContent = str;
+  };
+  L.osmMerge.controls.getByName('sidebar')[0].on('hide', function() {
+    setCloseButton('→');
+  });
+  L.osmMerge.controls.getByName('sidebar')[0].on('show', function() {
+    setCloseButton('←');
+  });
   showHeader();
   showPage('intro');
 };
