@@ -14,10 +14,10 @@ body,
   color: #fff;
 }
 div.leaflet-popup-content table tr:nth-child(even) {
-  background: #DFF;
+  background: #CEE;
 }
 div.leaflet-popup-content table tr:nth-child(odd) {
-  background: #FFF;
+  background: #EEE;
 }
 div.leaflet-popup-content table td {
   padding: 10px, 10px, 10px, 10px;
@@ -26,10 +26,13 @@ div.leaflet-popup-content table td {
   padding-left: 10px;
   padding-right: 10px;
 }
-div#sidebar .sidebarContent table td {
-  padding: 10px, 10px, 10px, 10px;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 10px;
-  padding-right: 10px;
+div#sidebar .sidebarContent table {
+  margin: 0 auto;
+  width: 95%;
+}
+div#sidebar .sidebarContent table tr:nth-child(even) {
+  background: #CEE;
+}
+div#sidebar .sidebarContent table tr:nth-child(odd) {
+  background: #EEE;
 }
