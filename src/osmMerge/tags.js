@@ -48,8 +48,13 @@ module.exports = {
           newTags['gnis:feature_id'] = v;
         },
         'address': function(v) {
-          newTags['addr:housenumber'] = v.split(' ')[0];
-          newTags['addr:street'] = v.split(' ').slice(1).join(' ');
+          // Check if the housenumber is a number
+          if (parseInt(v.split(' ')[0]).toString() === v.split(' ')[0]) {
+            newTags['addr:housenumber'] = v.split(' ')[0];
+            newTags['addr:street'] = v.split(' ').slice(1).join(' ');
+          } else {
+            newTags['addr:street'] = v;
+          }
         },
         'zipcode': function(v) {
           newTags['addr:postcode'] = v;
