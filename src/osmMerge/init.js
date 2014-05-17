@@ -48,14 +48,20 @@ var showHeader = function() {
     $('.leaflet-sidebar')[0].style.zIndex = 1040;
     L.osmMerge.controls.getByName('sidebar')[0].show();
   },
-  htmlWrap = function(tag, content, id, fandlebarsObj) {
+  htmlWrap = function(tag, content, id, fandlebarsObj, asText) {
     var temp = L.DomUtil.create(tag, id);
     temp.innerHTML = L.osmMerge.utils.fandlebars(content, fandlebarsObj || L.osmMerge.content);
-    return temp;
+    if (asText) {
+      var outer = L.DomUtil.create('div');
+      outer.appendChild(temp);
+      return outer.innerHTML;
+    } else {
+      return temp;
+    }
   };
 
 module.exports = function(mapDiv, layers, defaultLayer) {
-  L.osmMerge.store = {};
+  L.osmMerge.content.store = {};
   L.osmMerge.tileLayers = layers || {
     'Bing (For OSM Digitizing)': new L.BingLayer('Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU', // OSM Bing Key
       {
@@ -228,21 +234,24 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     'beginMatching': function() {
       $('.header').empty();
       $.getJSON('get/new', function(data) {
-        L.osmMerge.store.matchData = data;
+        L.osmMerge.content.store.matchData = data;
         var osmPoint, usgsPoint;
         if (data && data.usgs_point) {
           //L.geoJson(JSON.parse(data.usgs_point)).addTo(map);
           usgsPoint = JSON.parse(data.usgs_point);
-          usgsPoint.properties = L.osmMerge.tags.mapUsgs(data.usgs_tags);
+          usgsPoint.name = 'USGS Point';
+          L.osmMerge.content.store.matchData.usgsTags = usgsPoint.properties = L.osmMerge.tags.mapUsgs(data.usgs_tags);
         }
         if (data && data.osm_point) {
           //L.geoJson(JSON.parse(data.osm_point)).addTo(map);
           osmPoint = JSON.parse(data.osm_point);
-          osmPoint.properties = data.osm_tags;
+          osmPoint.name = 'OpenStreetMap Point';
+          L.osmMerge.content.store.matchData.osmTags = osmPoint.properties = data.osm_tags;
         }
         var matchLayer = L.geoJson([osmPoint, usgsPoint], {
           onEachFeature: function(feature, layer) {
-            layer.bindPopup(L.osmMerge.tags.toTable(feature.properties));
+            console.log(feature);
+            layer.bindPopup(htmlWrap('h4', feature.name, 'popupTitle', null, true) +  L.osmMerge.tags.toTable(feature.properties));
           }
         });
         matchLayer.addTo(map);
@@ -255,13 +264,16 @@ module.exports = function(mapDiv, layers, defaultLayer) {
     'sendMatch': function(status) {
       $.getJSON('/set/match' +
         '/' + status +
-        '/' + L.osmMerge.store.matchData.usgs_id +
-        '/' + L.osmMerge.store.matchData.osm_id +
-        '/' + L.osmMerge.store.matchData.matchid, function(data) {
+        '/' + L.osmMerge.content.store.matchData.usgs_id +
+        '/' + L.osmMerge.content.store.matchData.osm_id +
+        '/' + L.osmMerge.content.store.matchData.matchid, function(data) {
           console.log('yay', data);
         });
       if (status === 'true') {
-        showPage('tags');
+        L.osmMerge.content.store.matchData.usgsTable = L.osmMerge.tags.toTable(L.osmMerge.content.store.matchData.usgsTags,'match');
+        L.osmMerge.content.store.matchData.osmTable = L.osmMerge.tags.toTable(L.osmMerge.content.store.matchData.osmTags,'match');
+        showPage('usgsTags');
+        // JQuery to add lots of buttons (probz in a separate function)
       }
     }
   };
