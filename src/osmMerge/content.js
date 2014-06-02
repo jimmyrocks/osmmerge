@@ -31,10 +31,14 @@ module.exports = {
         'into OpenStreetMap.<br/>Click the buttons below to continue',
       'buttons': [{
         'title': 'Demo',
-        'action': {'message': ['Demo not implemented yet.', 'No Demo']}
+        'action': {
+          'message': ['Demo not implemented yet.', 'No Demo']
+        }
       }, {
         'title': 'Begin',
-        'action': {'beginMatching': null}
+        'action': {
+          'beginMatching': null
+        }
       }]
     },
     'match': {
@@ -45,35 +49,37 @@ module.exports = {
         'on the buttons below. <br><br>' +
         'You can click on the placemarkers to read the information about ' +
         'point on the map. ',
-      'buttons':[{
+      'buttons': [{
         'title': 'Yes, they match',
         'style': 'success',
-        'action': {'sendMatch': ['true']}
-      },{
+        'action': {
+          'sendMatch': ['true'],
+          'showTagPage': ['usgs']
+        }
+      }, {
         'title': 'No, these are different',
         'style': 'danger',
-        'action': {'message': ['Since these don\'t match, let\'s try a different one!'],
+        'action': {
+          'message': ['Since these don\'t match, let\'s try a different one!'],
           'sendMatch': ['false'],
           'beginMatching': null
         }
       }, {
         'title': 'Pass / I Don\'t know',
-        'action': {'beginMatching': null}
+        'action': {
+          'beginMatching': null
+        }
       }]
     },
     'usgsTags': {
       'header': 'Which USGS Tags Are Correct?',
       'subheader': 'Select the tags from the USGS point that you want to keep',
       'content': '{{store.matchData.usgsTable}}',
-      'buttons':[{
-        'title': 'All Done, Continue',
-        'style': 'success',
-        'action': {'message': ['You said continue!'], 'acceptTags': ['usgs']}
-      },{
-        'title': 'Cancel',
-        'style': 'danger',
-        'action': {'message': ['Ok, starting over!'],
-          'beginMatching': null
+      'buttons': [{
+        'title': 'View OpenStreetMap Tags',
+        'style': 'warning',
+        'action': {
+          'showTagPage': ['osm']
         }
       }]
     },
@@ -81,18 +87,83 @@ module.exports = {
       'header': 'Which OSM Tags Are Correct?',
       'subheader': 'Select the tags from OpenStreetMap point that you want to keep',
       'content': '{{store.matchData.osmTable}}',
-      'buttons':[{
-        'title': 'All Done, Continue',
+      'buttons': [{
+        'title': 'View USGS Tags',
+        'style': 'warning',
+        'action': {
+          'showTagPage': ['usgs']
+        }
+      }, {
+        'title': 'Save Tags',
         'style': 'success',
-        'action': {'message': ['You said continue!'], 'acceptTags': ['osm']}
-      },{
-      },{
-        'title': 'Cancel',
+        'action': {
+          'acceptTags': ['osm']
+        }
+      }, {
+        'title': 'Cancel, next points',
         'style': 'danger',
-        'action': {'message': ['Ok, starting over!'],
+        'action': {
+          'message': ['Ok, starting over!'],
+          'beginMatching': null
+        }
+      }]
+    },
+    'matchTags': {
+      'header': 'Which Tags Are Correct?',
+      'subheader': 'Select the tags that belong in OpenStreetMap',
+      'content': '{{store.matchData.matchDiv}}',
+      'buttons': [{
+        'title': 'All Matched',
+        'style': 'success',
+        'action': {
+          'message': ['Beep beep boop']
+        }
+      }, {
+        'title': 'Cancel, next points',
+        'style': 'danger',
+        'action': {
+          'message': ['Ok, starting over!'],
+          'beginMatching': null
+        }
+      }]
+    },
+    'placePoint': {
+      'header': 'Place the Point',
+      'subheader': 'Place the point on the map where you believe it should be located',
+      'content': '',
+      'buttons': [{
+        'title': 'Accept new Point',
+        'style': 'success',
+        'action': {
+          'message': ['You are the third person to place to point, it is ready to be added to OpenStreetMap'],
+          'osmLogin': null
+        }
+      }, {
+        'title': 'Cancel, next points',
+        'style': 'danger',
+        'action': {
+          'message': ['Ok, starting over!'],
+          'beginMatching': null
+        }
+      }]
+    },
+    'osmLogin': {
+      'header': 'Submit Point to OpenStreetMap',
+      'subheader': 'You are the third person to verify this point, you can add this to OpenStreetMap if you would like.',
+      'content': '',
+      'buttons': [{
+        'title': 'Log in to OpenStreetMap',
+        'style': 'success',
+        'action': {
+          'message': ['You have successfully submitted this point to OpenStreetMap'],
+        }
+      }, {
+        'title': 'Cancel, let someone else add it',
+        'style': 'danger',
+        'action': {
           'beginMatching': null
         }
       }]
     }
-  },
+  }
 };
