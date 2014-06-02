@@ -36,3 +36,9 @@ div#sidebar .sidebarContent table tr:nth-child(even) {
 div#sidebar .sidebarContent table tr:nth-child(odd) {
   background: #EEE;
 }
+div#sidebar .sidebarContent table td button.btn-xs {
+  width: 25px;
+  height: 25px;
+  border-bottom-style: ridge;
+  border-right-style: ridge;
+}
