@@ -59,23 +59,77 @@ var showHeader = function() {
       return temp;
     }
   },
+  createMatchPage = function() {
+    var matchDiv = L.osmMerge.content.store.matchData.matchDiv,
+      matchTable = L.DomUtil.create('table', 'matchTable'),
+      rows = [],
+      columns = [{
+        'name': 'Source',
+        'content': function() {
+          return 'usgs';
+        }
+      }, {
+        'name': 'Key',
+        'content': function() {
+          return 'Key';
+        }
+      }, {
+        'name': 'Value',
+        'content': function() {
+          return 'Value';
+        }
+      }, {
+        'name': 'Select',
+        'content': function() {
+          return 'BTN';
+        }
+      }],
+      addColumns = function(row, source, key, value) {
+        columns.map(function(i, column) {
+          var td = L.DomUtil.create('td', 'matchTable');
+          td.textContent = column.content(key, value, source);
+          row.appendChild(td);
+        });
+        return row;
+      };
+    ['osm', 'usgs'].map(function(j, source) {
+        for (var osmKey in L.osmMerge.content.store.matchData.osmTags) {
+          rows.push({
+            'key': osmKey,
+            'source': 'osm',
+            'value': 'L.osmMerge.content.store.matchData.osmTags[osmKey]',
+            'row': addColumns(L.DomUtil.create('tr', 'matchTable'), 'osm', osmKey, L.osmMerge.content.store.matchData.osmTags[osmKey])
+          });
+        }
+      });
+  },
   addButtons = function(source) {
-    var reference = source === 'usgs' ? L.osmMerge.content.store.matchData.usgsTags : L.osmMerge.content.store.matchData.osmTags;
-    L.osmMerge.content.store.matchData[source + 'ApprovedTags'] = {};
+    var reference = source === 'usgs' ? L.osmMerge.content.store.matchData.usgsTags : L.osmMerge.content.store.matchData.osmTags,
+      updateButton = function(e, init) {
+        console.log('c', L.osmMerge.content.store.matchData[$(e.target)[0].getAttribute('data-source') + 'ApprovedTags'][$(e.target)[0].getAttribute('data-tag')]);
+        var checked = !(L.osmMerge.content.store.matchData[$(e.target)[0].getAttribute('data-source') + 'ApprovedTags'][$(e.target)[0].getAttribute('data-tag')]);
+        if (init) {
+          checked = !checked;
+        }
+        L.osmMerge.content.store.matchData[$(e.target)[0].getAttribute('data-source') + 'ApprovedTags'][$(e.target)[0].getAttribute('data-tag')] = checked;
+        $($(e.target)[0])[(!checked ? 'add' : 'remove') + 'Class']('btn-danger');
+        $($(e.target)[0])[(checked ? 'add' : 'remove') + 'Class']('btn-success');
+        $(e.target)[0].textContent = checked ? '✓' : '✗';
+      };
+    console.log('a', L.osmMerge.content.store.matchData[source + 'ApprovedTags']);
+    L.osmMerge.content.store.matchData[source + 'ApprovedTags'] = L.osmMerge.content.store.matchData[source + 'ApprovedTags'] || {};
+    console.log('b', L.osmMerge.content.store.matchData[source + 'ApprovedTags']);
     $('div#sidebar .sidebarContent tr').map(function(index, row) {
       if (row.children[0] && reference[row.children[0].textContent]) {
-        L.osmMerge.content.store.matchData[source + 'ApprovedTags'][row.children[0].textContent] = false;
         var button = L.DomUtil.create('button', 'btn-xs btn-danger');
-        button.textContent = '✗';
+        L.osmMerge.content.store.matchData[source + 'ApprovedTags'][row.children[0].textContent] =
+          L.osmMerge.content.store.matchData[source + 'ApprovedTags'][row.children[0].textContent] || false;
         button.setAttribute('data-tag', row.children[0].textContent);
         button.setAttribute('data-source', source);
-        $(button).on('click', function(e) {
-            var checked  = !L.osmMerge.content.store.matchData[$(e.target)[0].getAttribute('data-source') + 'ApprovedTags'][$(e.target)[0].getAttribute('data-tag')];
-            L.osmMerge.content.store.matchData[$(e.target)[0].getAttribute('data-source') + 'ApprovedTags'][$(e.target)[0].getAttribute('data-tag')] = checked;
-            $($(e.target)[0])[(!checked ? 'add' : 'remove') + 'Class']('btn-danger');
-            $($(e.target)[0])[(checked ? 'add' : 'remove') + 'Class']('btn-success');
-            $(e.target)[0].textContent = checked ? '✓' : '✗';
-        });
+        $(button).on('click', updateButton);
+        updateButton({
+          'target': button
+        }, true);
         row.children[2].appendChild(button);
       }
     });
@@ -294,10 +348,19 @@ module.exports = function(mapDiv, layers, defaultLayer) {
       if (status === 'true') {
         L.osmMerge.content.store.matchData.usgsTable = L.osmMerge.tags.toTable(L.osmMerge.content.store.matchData.usgsTags, 'match');
         L.osmMerge.content.store.matchData.osmTable = L.osmMerge.tags.toTable(L.osmMerge.content.store.matchData.osmTags, 'match');
-        showPage('usgsTags');
-        addButtons('usgs');
       }
+    },
+    'acceptTags': function(status) {
+      showPage('placePoint');
+    },
+    'osmLogin': function() {
+      showPage('osmLogin');
+    },
+    'showTagPage': function(source) {
+      showPage(source + 'Tags');
+      addButtons(source);
     }
+
   };
 
   // Add the controls
